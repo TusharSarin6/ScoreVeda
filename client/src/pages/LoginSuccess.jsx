@@ -18,6 +18,9 @@ function LoginSuccess() {
         // 3. Save to LocalStorage (This logs the user in!)
         localStorage.setItem("user", JSON.stringify(parsedData));
 
+        // ✅ NEW: Notify the Navbar that the user has logged in
+        window.dispatchEvent(new Event("userUpdated"));
+
         // 4. CHECK FOR REDIRECT URL (From Login.jsx)
         const savedRedirect = sessionStorage.getItem("redirectAfterLogin");
         const destination = savedRedirect || "/";

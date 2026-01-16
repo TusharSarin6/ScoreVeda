@@ -14,6 +14,9 @@ function Login() {
   // ✅ NEW: PASSWORD VISIBILITY STATE
   const [showPassword, setShowPassword] = useState(false);
 
+  // ✅ NEW: Get API URL directly from Environment (Safer for Redirects)
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
   const { email, password } = formData;
   const location = useLocation();
   const navigate = useNavigate();
@@ -56,8 +59,8 @@ function Login() {
     }
 
     // 3. Go to Google
-    // ✅ CHANGED: Use dynamic Base URL so it works in Production
-    window.location.href = `${api.defaults.baseURL}/auth/google?intent=login`;
+    // ✅ CHANGED: Use explicit API_URL variable for 100% reliability
+    window.location.href = `${API_URL}/auth/google?intent=login`;
   };
 
   // --- HANDLE EMAIL LOGIN ---
@@ -256,7 +259,7 @@ function Login() {
             justifyContent: "center",
             gap: "25px",
             marginBottom: "10px",
-            lexWrap: "wrap",
+            flexWrap: "wrap",
           }}
         >
           <Link to="/about" style={{ color: "#ccc", textDecoration: "none" }}>
