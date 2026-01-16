@@ -4,6 +4,7 @@ const path = require("path"); // <--- Import Path
 require("dotenv").config();
 const connectDB = require("./config/db");
 const passport = require("passport"); // <--- Import Passport
+const authRoutes = require("./routes/authRoutes");
 
 // Connect to Database
 connectDB();
@@ -57,6 +58,7 @@ app.use("/auth", require("./routes/authRoutes")); // <--- Add Auth Routes
 // This tells the server: "Any URL starting with /api/users goes to userRoutes.js"
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/exams", require("./routes/examRoutes"));
+app.use("/api/auth", require("./routes/authRoutes"));
 
 // Default Route (Sanity Check)
 app.get("/", (req, res) => {
