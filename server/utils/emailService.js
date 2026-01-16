@@ -9,6 +9,9 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  // ✅ FIX: Force IPv4 to prevent Render IPv6 timeouts
+  family: 4, 
+  
   // Add timeouts to fail faster if network is blocked
   connectionTimeout: 10000, // 10 seconds
   greetingTimeout: 10000,
