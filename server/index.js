@@ -53,8 +53,7 @@ app.use(passport.initialize()); // <--- Initialize Passport Middleware
 // This allows the frontend to access images at http://your-site.com/uploads/filename.jpg
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// --- ROUTES ---
-app.use("/auth", require("./routes/authRoutes")); // <--- Add Auth Routes
+
 // This tells the server: "Any URL starting with /api/users goes to userRoutes.js"
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/exams", require("./routes/examRoutes"));
