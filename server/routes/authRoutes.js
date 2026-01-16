@@ -24,18 +24,31 @@ router.get("/google", (req, res, next) => {
 // 2. Google Callback
 router.get("/google/callback", (req, res, next) => {
   // ✅ UPDATED: Use dynamic Client URL for production redirect
-  const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
+  // We use a fallback to localhost ONLY if the Env Var is missing
+  // We also strip any trailing slash to avoid double slashes (e.g. .com//login)
+  const CLIENT_URL = (
+    process.env.CLIENT_URL || "http://localhost:5173"
+  ).replace(/\/$/, "");
 
   passport.authenticate(
     "google",
     { session: false },
     async (err, user, info) => {
       if (err) {
+        console.error("Google Auth Error:", err);
         return res.redirect(`${CLIENT_URL}/login?error=auth_failed`);
       }
 
-      const state = req.query.state ? JSON.parse(req.query.state) : {};
-      const intent = state.intent || "login";
+      // ✅ SAFETY: Wrap JSON.parse in try-catch to prevent server crashes on invalid state
+      let intent = "login";
+      try {
+        if (req.query.state) {
+          const parsedState = JSON.parse(req.query.state);
+          intent = parsedState.intent || "login";
+        }
+      } catch (parseError) {
+        console.error("State parsing error:", parseError);
+      }
 
       try {
         // --- CASE 1: USER DOES NOT EXIST ---
@@ -82,7 +95,7 @@ router.get("/google/callback", (req, res, next) => {
             birthday: user.birthday,
             phone: user.phone,
             isEmailVerified: user.isEmailVerified,
-            createdAt: user.createdAt, // <--- ADDED THIS (Fixes "Joined: N/A")
+            createdAt: user.createdAt,
             token: token,
           });
 
