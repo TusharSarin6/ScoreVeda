@@ -27,7 +27,7 @@ router.get("/google/callback", (req, res, next) => {
   // We use a fallback to localhost ONLY if the Env Var is missing
   // We also strip any trailing slash to avoid double slashes (e.g. .com//login)
   const CLIENT_URL = (
-    process.env.CLIENT_URL || "http://localhost:5173"
+    process.env.CLIENT_URL || "https://score-veda.vercel.app"
   ).replace(/\/$/, "");
 
   passport.authenticate(
