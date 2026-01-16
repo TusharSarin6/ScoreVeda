@@ -9,6 +9,15 @@ function Dashboard() {
   const navigate = useNavigate();
   //Get user info
   const storedUser = JSON.parse(localStorage.getItem("user"));
+
+  // ✅ FIX: Redirect to Login if no user is found
+  // This prevents the "White Screen" issue on the live site
+  useEffect(() => {
+    if (!storedUser) {
+      navigate("/login");
+    }
+  }, [storedUser, navigate]);
+
   if (!storedUser) {
     return null;
   }
@@ -28,7 +37,7 @@ function Dashboard() {
     if (user && user.role === "admin") {
       const fetchAdminData = async () => {
         try {
-          // ✅ CHANGED: Use api helper
+          // ✅ CHANGED: Use api helper (Token is auto-injected)
           const { data } = await api.get("/api/exams");
 
           // Filter to show only MY exams
