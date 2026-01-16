@@ -76,7 +76,28 @@ const loginUser = async (req, res) => {
       user.password &&
       (await bcrypt.compare(password, user.password))
     ) {
-      res.json({
+      // 🔐 STEP 1: If email NOT verified → send OTP
+      if (!user.isEmailVerified) {
+        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const expiresAt = new Date(Date.now() + 10 * 60000);
+
+        user.otp = { code: otpCode, type: "email", expiresAt };
+        await user.save();
+
+        if (typeof sendOtpEmail === "function") {
+          sendOtpEmail(user.email, user.name, otpCode).catch((err) =>
+            console.error("Login OTP Email failed:", err.message)
+          );
+        }
+
+        return res.status(403).json({
+          message: "Email not verified. OTP sent to your email.",
+          requiresVerification: true,
+        });
+      }
+
+      // ✅ STEP 2: Normal login (email verified)
+      return res.json({
         _id: user.id,
         name: user.name,
         email: user.email,
@@ -121,12 +142,14 @@ const deleteUserProfile = async (req, res) => {
 
     // ✅ VERIFY OTP
     if (
-      !user.otp || 
-      user.otp.code !== otp || 
-      user.otp.type !== "delete_account" || 
+      !user.otp ||
+      user.otp.code !== otp ||
+      user.otp.type !== "delete_account" ||
       new Date() > user.otp.expiresAt
     ) {
-      return res.status(400).json({ message: "Invalid or expired OTP. Please try again." });
+      return res
+        .status(400)
+        .json({ message: "Invalid or expired OTP. Please try again." });
     }
 
     // Proceed with Deletion logic
@@ -510,10 +533,10 @@ const sendDeleteOtp = async (req, res) => {
 
     // Save OTP to user document (expires in 10 mins)
     // We reuse the 'otp' field structure or create a specific one
-    user.otp = { 
-      code: otp, 
-      type: "delete_account", 
-      expiresAt: new Date(Date.now() + 10 * 60000) 
+    user.otp = {
+      code: otp,
+      type: "delete_account",
+      expiresAt: new Date(Date.now() + 10 * 60000),
     };
     await user.save();
 
@@ -522,9 +545,9 @@ const sendDeleteOtp = async (req, res) => {
     // For now, we use the existing sendOtpEmail helper
     if (typeof sendOtpEmail === "function") {
       await sendOtpEmail(
-        user.email, 
-        user.name, 
-        otp, 
+        user.email,
+        user.name,
+        otp,
         "Security Alert: Account Deletion OTP" // Subject line
       );
     }
