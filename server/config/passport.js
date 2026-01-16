@@ -10,7 +10,7 @@ module.exports = function (passport) {
         // ✅ UPDATED: Use absolute URL for production support
         callbackURL: `${
           process.env.SERVER_URL || "http://localhost:5000"
-        }/auth/google/callback`,
+        }/api/auth/google/callback`,
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
