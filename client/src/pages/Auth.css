@@ -1,0 +1,139 @@
+/* Login.css - The "Wow" Upgrade */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* 1. The Main Container with Image Background */
+.login-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  
+  /* High-quality academic/abstract background image */
+  background: 
+    /* A dark gradient overlay so text is readable */
+    linear-gradient(rgba(30, 10, 60, 0.8), rgba(10, 30, 80, 0.8)),
+    /* The image url (using unsplash source for high res) */
+    url('https://source.unsplash.com/random/1920x1080/?library,abstract,university') no-repeat center center/cover;
+}
+
+/* 2. The Glassmorphism Card */
+.login-card {
+  /* Frosted Glass Effect */
+  background: rgba(255, 255, 255, 0.1); /* Very transparent white */
+  backdrop-filter: blur(15px); /* The actual blur magic */
+  -webkit-backdrop-filter: blur(15px); /* For Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+  
+  padding: 3rem 2.5rem;
+  border-radius: 25px;
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+  width: 90%; /* Responsive width */
+  max-width: 450px;
+  text-align: center;
+  color: white; /* Make text white to contrast background */
+  animation: floatUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  margin-top: 4%;
+}
+
+/* Header Styling */
+.login-header h1 {
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+}
+
+.score-text { color: #fff; }
+.veda-text { color: #a575ff; /* A nice lavender accent color */ }
+
+.login-header p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2.5rem;
+  font-size: 1.1rem;
+}
+
+/* 3. Floating Label Input Groups (The difficult part) */
+.input-group {
+  position: relative;
+  margin-bottom: 2rem; /* Space for label to float */
+  text-align: left;
+}
+
+/* The actual input field */
+.form-input {
+  width: 100%;
+  padding: 15px 10px;
+  font-size: 16px;
+  color: white;
+  background: transparent; /* See-through background */
+  border: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  outline: none;
+  transition: border-color 0.3s;
+  font-family: inherit;
+}
+
+/* The label holding the text placeholder */
+.floating-label {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none; /* Ensures clicks go through label to the input */
+  transition: all 0.3s ease;
+}
+
+/* === INTERACTIVITY MAGIC === */
+
+/* When input is focused OR holds valid text, move label up */
+.form-input:focus ~ .floating-label,
+.form-input:valid ~ .floating-label {
+  top: -20px;
+  left: 0;
+  font-size: 14px;
+  color: #a575ff; /* Accent color when active */
+  font-weight: 600;
+}
+
+/* Highlight bottom border on focus */
+.form-input:focus {
+  border-bottom-color: #a575ff;
+}
+
+
+/* 4. The Modern Button */
+.btn-block {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 50px; /* Pill shape */
+  background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
+}
+
+/* Advanced hover effect */
+.btn-block:hover {
+  transform: translateY(-3px) scale(1.02); /* Lift and slight grow */
+  box-shadow: 0 15px 30px rgba(37, 117, 252, 0.5);
+  filter: brightness(1.1);
+}
+
+/* Entrance Animation */
+@keyframes floatUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

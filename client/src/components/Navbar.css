@@ -1,0 +1,167 @@
+/* --- GLOBAL FIX FOR MOBILE WOBBLE --- */
+html, body {
+  overflow-x: hidden; 
+  max-width: 100%;
+}
+
+/* Navbar Container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  background: rgba(20, 20, 40, 0.95);
+  backdrop-filter: blur(10px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
+}
+
+/* Logo Area */
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex; /* Keeps Score and Veda on same line */
+  gap: 2px;
+  white-space: nowrap; /* Prevents wrapping */
+}
+
+.tagline {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.5px;
+  white-space: nowrap; /* Prevents tagline wrapping */
+}
+
+/* Menu Links (Desktop) */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #a575ff;
+}
+
+/* Buttons & Profile */
+.create-btn {
+  padding: 8px 16px;
+  background: #a575ff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.logout-btn {
+  padding: 8px 16px;
+  background: #ff4d4d;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 10px;
+  color: white;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  object-fit: cover;
+}
+
+/* --- MOBILE HAMBURGER ICON --- */
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* --- MOBILE STYLES --- */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.8rem 1.5rem;
+  }
+
+  /* 1. MOVE HAMBURGER TO LEFT */
+  .hamburger {
+    display: block; 
+    order: -1; 
+  }
+
+  /* 2. ALIGN LOGO */
+  .logo-container {
+    align-items: center; /* Centers logo text on mobile */
+    margin-right: auto; /* Pushes it slightly away from hamburger if needed */
+    margin-left: 15px; /* Adds space between hamburger and logo */
+  }
+
+  /* Hide menu by default on mobile */
+  .nav-menu {
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    right: 0;
+    background: #1a1a2e;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    gap: 25px;
+    border-bottom: 2px solid #a575ff;
+    transition: 0.3s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-20px);
+    z-index: 999;
+  }
+
+  .nav-menu.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.5);
+  }
+
+  .create-btn, .logout-btn {
+    width: 80%;
+    text-align: center;
+  }
+} 

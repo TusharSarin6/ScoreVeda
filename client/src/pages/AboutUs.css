@@ -1,0 +1,242 @@
+/* GLOBAL SETTINGS FOR ABOUT PAGE */
+.about-container {
+  padding-top: 70px; /* Navbar offset */
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* HERO SECTION */
+.about-hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2e1a47 100%);
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.highlight {
+  color: #d4af37; /* Gold */
+}
+
+.tagline {
+  font-size: 0.65rem;
+  color: #d0ced5d1;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.hero-desc {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* SECTION CONTAINERS */
+.section-container {
+  padding: 60px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.alt-bg {
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  margin: 40px auto;
+  padding: 60px 40px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.2rem;
+  color: #4c2a85;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #d4af37;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 40px;
+  margin-top: -20px;
+}
+
+/* GRID LAYOUTS */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.info-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+  border-top: 5px solid #a575ff;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon-box {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+/* SECURITY SECTION */
+.security-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.security-item {
+  border-left: 4px solid #e74c3c;
+  padding-left: 20px;
+}
+
+.security-item h3 {
+  color: #c0392b;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.security-item p {
+  line-height: 1.6;
+  color: #555;
+}
+
+/* ROLES SECTION */
+.roles-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+}
+
+.role-box {
+  flex: 1;
+  min-width: 300px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.admin-role h3 { color: #d35400; border-bottom: 2px solid #fcebe6; padding-bottom: 10px; margin-bottom: 15px;}
+.student-role h3 { color: #27ae60; border-bottom: 2px solid #eafaf1; padding-bottom: 10px; margin-bottom: 15px;}
+
+.role-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.role-box li {
+  margin-bottom: 12px;
+  position: relative;
+  padding-left: 25px;
+  color: #444;
+}
+
+.role-box li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #4c2a85;
+  font-weight: bold;
+}
+
+/* FOOTER */
+.about-footer {
+  background: #1a1a2e;
+  color: #ccc;
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 50px;
+}
+
+.about-footer h3 {
+  color: white;
+  margin-bottom: 5px;
+  font-size: 1.5rem;
+}
+
+.copyright {
+  font-size: 0.9rem;
+  margin-top: 20px;
+  opacity: 0.7;
+}
+
+.footer-links {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 0.9rem;
+}
+
+.footer-links span {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.footer-links span:hover {
+  color: #d4af37;
+}
+
+/* --- RESPONSIVE / MOBILE STYLES --- */
+@media (max-width: 768px) {
+  
+  /* 1. Fix Hero Title Size */
+  .about-hero h1 { 
+    font-size: 2.2rem; 
+  }
+
+  /* 2. FORCE CARDS TO STACK (The Fix) */
+  .grid-3 { 
+    display: flex !important;          /* Override Grid */
+    flex-direction: column !important; /* Stack Top-to-Bottom */
+    gap: 30px;
+    height: auto !important;           /* Ensure container grows */
+  }
+
+  /* 3. Ensure cards take full width */
+  .info-card {
+    width: 82%;
+    margin: 0 auto; /* Center them */
+  }
+
+  /* 4. Fix Roles Section stacking too */
+  .roles-wrapper { 
+    flex-direction: column; 
+  }
+}

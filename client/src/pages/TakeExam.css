@@ -1,0 +1,448 @@
+/* CONTAINER LAYOUT */
+/* 1. For Review Exam (Single Column) */
+.take-exam-container {
+  max-width: 1000px; /* Restrict max width */
+  margin: 30px auto; /* Center it */
+  padding: 0 20px;
+}
+
+/* 2. For Take Exam (Split Column) */
+.take-exam-container-split {
+  display: flex;
+  height: calc(100vh - 70px); /* Subtract Navbar height */
+  background: #f4f6f8;
+  overflow: hidden; /* Prevent full page scroll */
+}
+
+.exam-paper {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Ensure it fills container */
+  box-sizing: border-box; /* Include padding in width */
+}
+
+/* --- LEFT SIDE: QUESTION AREA --- */
+.question-area {
+  flex: 3; /* Takes up 75% width */
+  padding: 30px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* CRITICAL: Prevents flex child from overflowing */
+}
+
+.paper-header {
+  background: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  margin-top: 60px;
+}
+
+.exam-info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Prevent collision */
+  gap: 10px;
+}
+
+.exam-info-bar h1 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.timer-badge {
+  background: #2c3e50;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+.warning-banner {
+  background: #e74c3c;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-weight: bold;
+  animation: pulse 1s infinite;
+}
+
+/* QUESTION CARD */
+.question-display {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  flex-grow: 1; /* Pushes footer down */
+  position: relative;
+  overflow-wrap: break-word; /* Ensure text breaks */
+}
+
+.q-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.q-header h3 {
+  color: #4c2a85;
+  margin: 0;
+}
+.q-marks {
+  background: #dff9fb;
+  color: #130f40;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.q-text {
+  font-size: 1.15rem;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  word-break: break-word; /* Fix long words */
+}
+
+/* OPTIONS & INPUTS */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.option-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.option-item:hover {
+  background: #f9f9f9;
+  border-color: #bbb;
+}
+.option-item.selected {
+  border-color: #4c2a85;
+  background: #f3eefc;
+  font-weight: 500;
+}
+
+.opt-label {
+  background: #eee;
+  width: 30px;
+  height: 30px;
+  min-width: 30px; /* Prevent shrinking */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 15px;
+  font-weight: bold;
+  color: #555;
+}
+.option-item.selected .opt-label {
+  background: #4c2a85;
+  color: white;
+}
+
+.theory-input {
+  width: 100%;
+  height: 200px;
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  resize: vertical;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+/* FOOTER CONTROLS */
+.footer-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 20px;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  gap: 10px;
+}
+
+.review-btn,
+.prev-btn,
+.next-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.review-btn {
+  transition: background 0.3s;
+}
+.prev-btn {
+  background: #34495e;
+  margin-right: 10px;
+}
+.next-btn {
+  background: #2ecc71;
+}
+.prev-btn:disabled,
+.next-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- RIGHT SIDE: NAVIGATION SIDEBAR --- */
+.navigation-sidebar {
+  flex: 1; /* Takes up 25% width */
+  min-width: 250px; /* Prevent becoming too narrow */
+  background: white;
+  border-left: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin-top: 92px;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.nav-header h3 {
+  margin-top: 0;
+  color: #333;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+/* GRID SYSTEM */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px 0;
+}
+
+.grid-item {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s;
+}
+.grid-item:hover {
+  transform: scale(1.1);
+}
+
+/* STATUS COLORS */
+.grid-item.not-visited {
+  background: #ecf0f1;
+  color: #333;
+  border: 1px solid #bdc3c7;
+}
+.grid-item.not-answered {
+  background: #e74c3c;
+  color: white;
+}
+.grid-item.answered {
+  background: #2ecc71;
+  color: white;
+}
+.grid-item.review {
+  background: #8e44ad;
+  color: white;
+  border-radius: 50%;
+} /* Circle for review */
+.grid-item.active {
+  border: 2px solid #3498db;
+  box-shadow: 0 0 5px #3498db;
+}
+
+/* LEGEND */
+.legend {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  font-size: 0.85rem;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #555;
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.dot.answered {
+  background: #2ecc71;
+}
+.dot.not-answered {
+  background: #e74c3c;
+}
+.dot.review {
+  background: #8e44ad;
+  border-radius: 50%;
+}
+.dot.not-visited {
+  background: #ecf0f1;
+  border: 1px solid #bdc3c7;
+}
+
+/* FINAL SUBMIT BUTTON */
+.submit-final-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  background: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.submit-final-btn:hover {
+  background: #2471a3;
+}
+
+/* ANIMATIONS */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* --- MOBILE & TABLET OPTIMIZATIONS --- */
+@media (max-width: 900px) {
+  /* 1. Fix Split Layout: Stack Question and Palette vertically */
+  .take-exam-container-split {
+    flex-direction: column;
+    height: auto;       /* Disable fixed height so it scrolls naturally */
+    overflow-y: auto;   /* Enable vertical scrolling */
+    overflow-x: hidden; /* Stop horizontal wobble */
+  }
+
+  /* 2. Adjust Question Area Padding */
+  .question-area {
+    padding: 15px;      /* Reduce padding to give more space to text */
+    width: 100%;        /* Full width */
+    box-sizing: border-box;
+    flex: none;         /* Stop flex resizing issues */
+  }
+
+  /* 3. Header & Timer Adjustments */
+  .paper-header {
+    margin-top: 80px;   /* Push down below fixed Navbar */
+    padding: 15px;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  
+  .exam-info-bar {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .timer-badge {
+    font-size: 1rem;    /* Slightly smaller timer */
+    padding: 6px 12px;
+  }
+
+  /* 4. Question Card Styling */
+  .question-display {
+    padding: 20px;      /* Compact padding */
+    margin-bottom: 20px;
+  }
+
+  .q-text {
+    font-size: 1rem;    /* Readable text size */
+  }
+
+  /* 5. Big Tap Targets for Options */
+  .option-item {
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  
+  /* 6. Fix Button Overflow - Make them stacked or grid */
+  .footer-controls {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 15px;
+    align-items: stretch;   /* Stretch buttons to full width */
+  }
+
+  .footer-controls button {
+    width: 100%;            /* Full width buttons */
+    padding: 14px;          /* Taller for easy tapping */
+    font-size: 1rem;
+    margin: 0;              /* Remove side margins */
+  }
+
+  /* Group Next/Prev buttons in a row if needed, or keep stacked */
+  .footer-controls div {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+
+  /* 7. Navigation Sidebar (Palette) at the Bottom */
+  .navigation-sidebar {
+    width: 100%;
+    order: 2;           /* Force it to the bottom */
+    border-left: none;
+    border-top: 4px solid #f0f0f0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  /* 8. Grid for Question Numbers */
+  .grid-container {
+    grid-template-columns: repeat(6, 1fr); /* Fit 6 numbers per row */
+    gap: 8px;
+  }
+
+  .grid-item {
+    width: 100%;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,120 @@
+.result-container {
+  padding-top: 100px; /* Space for Navbar */
+  min-height: 100vh;
+  background: #f4f6f8; /* Changed to Light Grey for better readability */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center horizontally */
+  font-family: "Poppins", sans-serif;
+  padding-bottom: 50px;
+}
+
+.result-card {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  width: 95%; /* Wider width for detailed report */
+  max-width: 1000px; /* Increased max-width */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px; /* Add spacing between cards */
+  animation: popIn 0.5s ease;
+}
+
+.status-icon {
+  font-size: 4rem;
+  margin-bottom: 15px;
+}
+
+.status-icon.pending {
+  color: #f39c12; /* Orange-Yellow */
+}
+
+/* Ensure pass/fail colors are distinct */
+.status-icon.pass {
+  color: #2ecc71;
+}
+.status-icon.fail {
+  color: #e74c3c;
+}
+
+.result-card h1 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+
+.subtitle {
+  color: #7f8c8d;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.score-box {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 0 auto 30px auto;
+  border: 1px solid #e9ecef;
+  max-width: 300px;
+}
+
+.score-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #95a5a6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.score-value {
+  display: block;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #4c2a85;
+  line-height: 1.2;
+}
+
+.home-btn {
+  display: inline-block;
+  background: #34495e;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.home-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+  .result-card {
+    padding: 20px;
+    width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .score-value {
+    font-size: 2.5rem;
+  }
+}
