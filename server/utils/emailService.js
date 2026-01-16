@@ -12,22 +12,21 @@ if (dns.setDefaultResultOrder) {
   }
 }
 
-// --- UPDATED CONFIGURATION (SSL MODE + DEBUG) ---
+// --- ✅ UPDATED CONFIGURATION (TLS MODE – RENDER SAFE) ---
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465, // ⬅️ CHANGED: 465 is "Implicit SSL" (more reliable on cloud)
-  secure: true, // ⬅️ CHANGED: Must be TRUE for port 465
+  port: 587, // ✅ FIXED: Use TLS port
+  secure: false, // ✅ FIXED: Must be false for 587
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  // Network Stability Settings
-  connectionTimeout: 20000, // Increased to 20 seconds
+
+  // Network Stability
+  connectionTimeout: 20000,
   greetingTimeout: 20000,
   socketTimeout: 20000,
-  tls: {
-    rejectUnauthorized: false,
-  },
+
   // 🛠️ ENABLE DEBUG LOGS
   debug: true, // This shows low-level connection details
   logger: true, // This logs info to the console
@@ -61,18 +60,13 @@ const sendEmail = async (to, subject, htmlContent) => {
 
     // --- UPDATED: Use retry wrapper ---
     await sendWithRetry(mailOptions);
-
-    if (process.env.NODE_ENV !== "production") {
-      console.log(`📧 Email sent to ${to}`);
-    }
+    console.log(`📧 Email sent to ${to}`);
     return true; // Return true on success
   } catch (error) {
     // --- : DO NOT CRASH SERVER ---
     console.error("📛 Email Error:", error.message);
     // Log full error for debugging on Render
     console.error(error);
-
-    // ❌ DO NOT THROW — swallow error safely
     return false;
   }
 };
