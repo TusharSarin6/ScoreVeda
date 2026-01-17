@@ -296,7 +296,8 @@ const updateResultScore = async (req, res) => {
           result.exam.title,
           result.score,
           result.exam.totalMarks,
-          result.exam.hasCertificate && result.isPassed
+          result.exam.hasCertificate && result.isPassed,
+          result._id 
         ).catch((err) =>
           console.error("Failed to send result email:", err.message)
         );
