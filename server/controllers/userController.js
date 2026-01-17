@@ -76,28 +76,7 @@ const loginUser = async (req, res) => {
       user.password &&
       (await bcrypt.compare(password, user.password))
     ) {
-      // 🔐 STEP 1: If email NOT verified → send OTP
-      if (!user.isEmailVerified) {
-        const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-        const expiresAt = new Date(Date.now() + 10 * 60000);
-
-        user.otp = { code: otpCode, type: "email", expiresAt };
-        await user.save();
-
-        if (typeof sendOtpEmail === "function") {
-          sendOtpEmail(user.email, user.name, otpCode).catch((err) =>
-            console.error("Login OTP Email failed:", err.message)
-          );
-        }
-
-        return res.status(403).json({
-          message: "Email not verified. OTP sent to your email.",
-          requiresVerification: true,
-        });
-      }
-
-      // ✅ STEP 2: Normal login (email verified)
-      return res.json({
+      res.json({
         _id: user.id,
         name: user.name,
         email: user.email,
