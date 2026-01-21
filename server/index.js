@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const path = require("path"); // <--- Import Path
+const path = require("path"); 
 require("dotenv").config();
 const connectDB = require("./config/db");
-const passport = require("passport"); // <--- Import Passport
+const passport = require("passport"); 
 const authRoutes = require("./routes/authRoutes");
 
 // Connect to Database
@@ -12,11 +12,11 @@ connectDB();
 const app = express();
 
 // Passport Config
-require("./config/passport")(passport); // <--- Initialize Strategy
+require("./config/passport")(passport); 
 
-// --- MIDDLEWARE ---
 
-// ✅ UPDATED: PRODUCTION READY CORS
+
+
 // We define which URLs are allowed to talk to this backend
 const allowedOrigins = [
   "http://localhost:5173", // Local React Development
@@ -47,15 +47,13 @@ app.use(
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: false })); // Fix: Added URL Encoded parser with higher limit
 
-app.use(passport.initialize()); // <--- Initialize Passport Middleware
+app.use(passport.initialize()); 
 
 // --- SERVE UPLOADED IMAGES STATICALLY ---
-// This allows the frontend to access images at http://your-site.com/uploads/filename.jpg
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // --- ROUTES ---
-app.use("/auth", require("./routes/authRoutes")); // <--- Add Auth Routes
-// This tells the server: "Any URL starting with /api/users goes to userRoutes.js"
+app.use("/auth", require("./routes/authRoutes")); 
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/exams", require("./routes/examRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));

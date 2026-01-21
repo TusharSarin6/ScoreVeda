@@ -36,7 +36,7 @@ module.exports = (req, res, next) => {
       });
     }
 
-    // ✅ Profile is fully complete
+    //  Profile is fully complete
     next();
   } catch (error) {
     console.error("Profile Completion Middleware Error:", error);

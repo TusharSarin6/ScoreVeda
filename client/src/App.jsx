@@ -34,7 +34,7 @@ function App() {
           <Route path="/create-exam" element={<CreateExam />} />
           <Route path="/take-exam/:id" element={<TakeExam />} />
 
-          {/* ✅ UPDATED: Added route to handle direct link from email */}
+          {/*  Added route to handle direct link from email */}
           <Route path="/result" element={<ResultPage />} />
           <Route path="/result/:id" element={<ResultPage />} />
 

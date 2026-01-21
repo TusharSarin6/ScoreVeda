@@ -5,7 +5,6 @@
   min-height: 90vh;
   background-color: #f0f2f5;
   padding: 20px;
-  /* Ensure content doesn't hide behind fixed navbar on mobile */
   padding-top: 100px; 
 }
 
@@ -156,7 +155,7 @@
   color: #fff;
 }
 
-/* ✅ NEW: MOBILE RESPONSIVE UPDATES */
+/*  MOBILE RESPONSIVE UPDATES */
 @media (max-width: 768px) {
   .instructions-container {
     padding: 15px; /* Reduce outer padding */
@@ -182,7 +181,7 @@
     padding: 6px 12px;
   }
 
-  /* Fix Rules Section Cramping */
+  /*  Rules Section Cramping */
   .rules-section {
     padding: 15px; 
   }
@@ -196,7 +195,7 @@
     font-size: 0.95rem; /* Slightly smaller text for readability */
   }
 
-  /* Fix Checkbox alignment */
+  /* Checkbox alignment */
   .checkbox-label {
     align-items: flex-start; /* Align checkbox with top of text */
     text-align: left;
@@ -207,7 +206,6 @@
     min-width: 20px; /* ensure it doesn't shrink */
   }
 
-  /* Fix Button */
   .start-btn {
     padding: 15px;
     font-size: 1.1rem;

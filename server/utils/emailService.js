@@ -5,9 +5,7 @@ let apiInstance = new Brevo.TransactionalEmailsApi();
 let apiKey = apiInstance.authentications["apiKey"];
 apiKey.apiKey = process.env.BREVO_API_KEY;
 
-// -----------------------------
 // CORE EMAIL SENDER (BREVO API)
-// -----------------------------
 const sendEmail = async (to, subject, htmlContent) => {
   try {
     let sendSmtpEmail = new Brevo.SendSmtpEmail();
@@ -32,7 +30,7 @@ const sendEmail = async (to, subject, htmlContent) => {
   }
 };
 
-// --- 🎨 ENHANCED PROFESSIONAL STYLES ---
+// ---  ENHANCED PROFESSIONAL STYLES ---
 const wrapperStyle = `font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; padding: 50px 20px; color: #2c3e50;`;
 const containerStyle = `max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #eef2f3;`;
 const headerStyle = `background: linear-gradient(135deg, #4c2a85 0%, #6c3db5 100%); padding: 40px 30px; text-align: center; color: #ffffff;`;

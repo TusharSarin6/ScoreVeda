@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../utils/api"; // ✅ CHANGED: Import the new helper
+import api from "../utils/api"; 
 import Navbar from "../components/Navbar";
 import "./AdminResults.css";
 
@@ -16,8 +16,6 @@ function AdminResults() {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        // ✅ CHANGED: Use api helper (Token is auto-injected)
-        // Fetch the Results List
         const { data } = await api.get(`/api/exams/${id}/results`);
         setResults(data);
 
@@ -37,7 +35,7 @@ function AdminResults() {
       <Navbar />
       <div className="results-container">
         <div className="table-card">
-          {/* ✅ UPDATED HEADER: Flexbox for Title (Left) and Paper Code (Right) */}
+          
           <div
             style={{
               display: "flex",
@@ -45,7 +43,7 @@ function AdminResults() {
               alignItems: "center",
               flexWrap: "wrap",
               gap: "10px",
-              marginBottom: "5px", // Adjust spacing to subtitle
+              marginBottom: "5px", 
             }}
           >
             <h1 className="table-title" style={{ margin: 0 }}>

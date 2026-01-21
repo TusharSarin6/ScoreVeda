@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../utils/api"; // ✅ CHANGED: Import the new helper
+import api from "../utils/api"; 
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,10 +11,10 @@ function Login() {
     password: "",
   });
 
-  // ✅ NEW: PASSWORD VISIBILITY STATE
+  //  PASSWORD VISIBILITY STATE
   const [showPassword, setShowPassword] = useState(false);
 
-  // ✅ NEW: Get API URL directly from Environment (Safer for Redirects)
+  //  Get API URL directly from Environment (Safer for Redirects)
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const { email, password } = formData;
@@ -47,7 +47,7 @@ function Login() {
       toast.error("No account found. Please Sign Up first.");
   }, [location]);
 
-  // --- NEW: HANDLE GOOGLE LOGIN ---
+  // ---  HANDLE GOOGLE LOGIN ---
   const handleGoogleLogin = () => {
     // 1. Check if a redirect URL is already saved in session storage
     let redirectPath = sessionStorage.getItem("redirectAfterLogin");
@@ -59,7 +59,7 @@ function Login() {
     }
 
     // 3. Go to Google
-    // ✅ CHANGED: Use explicit API_URL variable for 100% reliability
+    // Use explicit API_URL variable for 100% reliability
     window.location.href = `${API_URL}/auth/google?intent=login`;
   };
 
@@ -67,7 +67,7 @@ function Login() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      // ✅ CHANGED: Use 'api' helper
+      // Use 'api' helper
       const response = await api.post("/api/users/login", formData);
       if (response.data) {
         localStorage.setItem("user", JSON.stringify(response.data));
@@ -86,13 +86,13 @@ function Login() {
       const message = error.response?.data?.message || "Login failed";
       toast.error(message);
 
-      // ✅ CLEAR EMAIL & PASSWORD ON INVALID LOGIN
+      //  CLEAR EMAIL & PASSWORD ON INVALID LOGIN
       setFormData({
         email: "",
         password: "",
       });
 
-      // ✅ RESET PASSWORD VISIBILITY
+      //  RESET PASSWORD VISIBILITY
       setShowPassword(false);
     }
   };
@@ -104,7 +104,7 @@ function Login() {
     >
       <ToastContainer position="top-center" theme="dark" />
 
-      {/* ✅ ADDED WRAPPER: Centers card and pushes footer down using flex: 1 */}
+      {/*   Centers card and pushes footer down using flex: 1 */}
       <div
         style={{
           flex: 1,
@@ -126,7 +126,7 @@ function Login() {
           <section className="form">
             <form onSubmit={onSubmit} autoComplete="off">
               {/* autoComplete off prevents browser clutter */}
-              {/* NEW STRUCTURE FOR FLOATING LABELS */}
+
               <div className="input-group">
                 <input
                   type="email"
@@ -135,9 +135,9 @@ function Login() {
                   name="email"
                   value={email}
                   onChange={onChange}
-                  required // This is crucial for CSS to know when to float the label
+                  required 
                 />
-                {/* Label MUST come AFTER input for the CSS trick to work */}
+                
                 <label htmlFor="email" className="floating-label">
                   Email Address
                 </label>
@@ -175,7 +175,7 @@ function Login() {
                   {showPassword ? "⌣" : "👁"}
                 </span>
               </div>
-              {/* 🔁 FORGOT PASSWORD LINK */}
+              {/*  FORGOT PASSWORD LINK */}
               <div
                 style={{
                   textAlign: "right",
@@ -242,7 +242,7 @@ function Login() {
         </div>
       </div>
 
-      {/* ✅ NEW FOOTER */}
+      {/* FOOTER */}
       <footer
         style={{
           padding: "30px 20px",

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../utils/api"; // ✅ CHANGED: Import the new helper
+import api from "../utils/api"; 
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,14 +14,14 @@ function Register() {
     googleId: null, // Store googleId here
   });
 
-  // ✅ NEW: PASSWORD VISIBILITY STATE
+  //  PASSWORD VISIBILITY STATE
   const [showPassword, setShowPassword] = useState(false);
 
   const { name, email, password, role, googleId } = formData;
   const navigate = useNavigate();
   const location = useLocation();
 
-  // --- NEW: CHECK FOR GOOGLE DATA OR ERRORS IN URL ---
+  // ---  CHECK FOR GOOGLE DATA OR ERRORS IN URL ---
   useEffect(() => {
     const params = new URLSearchParams(location.search);
 
@@ -50,7 +50,7 @@ function Register() {
 
   // ---  HANDLE GOOGLE SIGNUP ---
   const handleGoogleSignup = () => {
-    // ✅ CHANGED: Use dynamic Base URL so it works in Production
+    
     window.location.href = `${api.defaults.baseURL}/auth/google?intent=signup`;
   };
 
@@ -93,7 +93,7 @@ function Register() {
     >
       <ToastContainer position="top-center" theme="dark" />
 
-      {/* ✅ WRAPPER: Centers the card and pushes footer down */}
+      {/*  WRAPPER: Centers the card and pushes footer down */}
       <div
         style={{
           flex: 1,
@@ -308,7 +308,7 @@ function Register() {
         </div>
       </div>
 
-      {/* ✅ UPDATED FOOTER */}
+      {/*  FOOTER */}
       <footer
         style={{
           padding: "30px 20px",

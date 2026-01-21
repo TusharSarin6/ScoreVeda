@@ -9,13 +9,13 @@ function Navbar() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // ✅ NEW: Get API URL dynamically for images
+  //  Get API URL dynamically for images
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-  // --- NEW: Check if user is taking an exam ---
+  // ---  Check if user is taking an exam ---
   const isTakingExam = location.pathname.startsWith("/take-exam");
 
-  // --- NEW: Listen for Profile Updates ---
+  // ---  Listen for Profile Updates ---
   useEffect(() => {
     const handleStorageChange = () => {
       setUser(JSON.parse(localStorage.getItem("user")));
@@ -40,7 +40,7 @@ function Navbar() {
     navigate("/login");
   };
 
-  // ✅ HELPER: Construct Image URL safely
+  // HELPER: Construct Image URL safely
   const getProfileImage = (path) => {
     if (!path) return null;
     // If it's a Google URL (starts with http), use it as is.

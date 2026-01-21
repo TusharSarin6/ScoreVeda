@@ -37,8 +37,8 @@ textarea {
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  width: 100%; /* ✅ Ensure inputs don't overflow */
-  box-sizing: border-box; /* ✅ Include padding in width */
+  width: 100%; 
+  box-sizing: border-box; 
   resize: none;
 }
 .grid-2 {
@@ -57,7 +57,7 @@ textarea {
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 20px;
-  position: relative; /* ✅ For positioning delete button */
+  position: relative; 
 }
 .q-input {
   width: 100%;
@@ -110,7 +110,7 @@ textarea {
   align-items: center;
 }
 
-/* ✅ NEW: MOBILE RESPONSIVE FIXES */
+/*  MOBILE RESPONSIVE FIXES */
 @media (max-width: 768px) {
   .create-container {
     padding: 100px 15px 50px; /* Reduce side padding */
@@ -144,20 +144,20 @@ textarea {
     padding: 15px; /* More space for content */
   }
 
-  /* 🔽 FIX: Adjust Dropdowns (MCQ/Theory) Size */
+  /*  Adjust Dropdowns (MCQ/Theory) Size */
   select {
     padding: 8px; /* Reduce padding slightly */
     font-size: 0.9rem; /* Make text compact */
   }
 
-  /* 🔽 FIX: Make "Type Question Here" Bigger */
+  /*  Make "Type Question Here" Bigger */
   .q-input {
     min-height: 80px !important; /* Force it to be taller */
     font-size: 1rem; /* Readable font size */
     padding: 12px;
   }
 
-  /* 🔽 FIX: Make Helper/Instruction Text Smaller */
+  /*  Make Helper/Instruction Text Smaller */
   /* Targets typical small text or paragraphs inside question cards */
   .question-card p,
   .question-card small, 

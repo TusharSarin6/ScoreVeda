@@ -71,8 +71,8 @@
 /* --- GRADING SECTION (Per Question) --- */
 .grading-box {
   display: flex;
-  flex-direction: column;   /* 👈 KEY FIX */
-  gap: 16px;                /* space between items */
+  flex-direction: column;   
+  gap: 16px;                
   background: rgb(52, 73, 94);
   padding: 20px;
   border-radius: 10px;
@@ -126,7 +126,7 @@
   font-size: 1.1rem;
 }
 
-/* ✅ THE FIX: Force Score and Button to stack vertically */
+/*  Force Score and Button to stack vertically */
 .footer-actions {
   display: flex;
   flex-direction: column; /* Forces vertical stacking */

@@ -4,11 +4,7 @@ const Result = require("../models/resultModel");
 const {
   sendExamSubmissionEmail,
   sendResultUpdateEmail,
-} = require("../utils/emailService"); // <--- Import Email Service
-
-// @desc    Create a new exam
-// @route   POST /api/exams
-// @access  Private (Admins only)
+} = require("../utils/emailService");
 const createExam = async (req, res) => {
   try {
     const {
@@ -21,10 +17,10 @@ const createExam = async (req, res) => {
       questions,
       accessCode,
       isPublished,
-      hasCertificate, // <--- New Field
-      certificateSettings, // <--- New Field
-      instituteName, // <--- Extract Custom Institute Name
-      examRules, // <--- Extract Custom Rules Array
+      hasCertificate, 
+      certificateSettings, 
+      instituteName,
+      examRules, 
     } = req.body;
 
     // Validation: Ensure questions array is not empty
@@ -50,7 +46,7 @@ const createExam = async (req, res) => {
       examRules,
       // -------------------------------
 
-      hasCertificate, // <--- Save boolean
+      hasCertificate, 
       certificateSettings: hasCertificate ? certificateSettings : null,
       createdBy: req.user.id,
     });
@@ -156,7 +152,7 @@ const submitExam = async (req, res) => {
       status: resultStatus,
     });
 
-    // ✅ POPULATE FULL DATA BEFORE SENDING TO FRONTEND
+    //  POPULATE FULL DATA BEFORE SENDING TO FRONTEND
     const populatedResult = await Result.findById(result._id)
       .populate("user", "name email")
       .populate({
@@ -229,7 +225,7 @@ const getMyResults = async (req, res) => {
   }
 };
 
-// ✅ UPDATED: Populate exam creator + institute + dates
+//  Populate exam creator + institute + dates
 const getResultById = async (req, res) => {
   try {
     const result = await Result.findById(req.params.id)

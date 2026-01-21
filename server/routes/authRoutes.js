@@ -23,9 +23,6 @@ router.get("/google", (req, res, next) => {
 
 // 2. Google Callback
 router.get("/google/callback", (req, res, next) => {
-  // ✅ UPDATED: Use dynamic Client URL for production redirect
-  // We use a fallback to localhost ONLY if the Env Var is missing
-  // We also strip any trailing slash to avoid double slashes (e.g. .com//login)
   const CLIENT_URL = (
     process.env.CLIENT_URL || "https://score-veda.vercel.app"
   ).replace(/\/$/, "");
@@ -39,7 +36,7 @@ router.get("/google/callback", (req, res, next) => {
         return res.redirect(`${CLIENT_URL}/login?error=auth_failed`);
       }
 
-      // ✅ SAFETY: Wrap JSON.parse in try-catch to prevent server crashes on invalid state
+      //  Wrap JSON.parse in try-catch to prevent server crashes on invalid state
       let intent = "login";
       try {
         if (req.query.state) {
@@ -60,7 +57,7 @@ router.get("/google/callback", (req, res, next) => {
           }
 
           if (intent === "signup") {
-            // --- CHANGE: DO NOT CREATE ACCOUNT YET ---
+            // ---  DO NOT CREATE ACCOUNT YET ---
             // Instead, redirect to Frontend Register form with their info
             const email = info.profile.emails[0].value;
             const name = info.profile.displayName;
@@ -83,7 +80,7 @@ router.get("/google/callback", (req, res, next) => {
           // If intent is login, proceed to login
           const token = generateToken(user._id);
 
-          // FIX: Include ALL profile fields so they don't get reset on login
+          //  Include ALL profile fields so they don't get reset on login
           const userData = JSON.stringify({
             _id: user._id,
             name: user.name,

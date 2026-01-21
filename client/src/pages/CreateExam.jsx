@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../utils/api"; // ✅ CHANGED: Import the new helper
+import api from "../utils/api"; 
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../components/Navbar";
 import * as XLSX from "xlsx";
@@ -41,7 +41,7 @@ function CreateExam() {
   const [passingMarks, setPassingMarks] = useState(30);
   const [type, setType] = useState("mcq");
 
-  // --- NEW: INSTRUCTION PAGE SETTINGS ---
+  // ---  INSTRUCTION PAGE SETTINGS ---
   const [instituteName, setInstituteName] = useState("ScoreVeda Institute");
   const [examRules, setExamRules] = useState([
     "Do not switch browser tabs. (Warning will be issued).",
@@ -177,7 +177,7 @@ function CreateExam() {
     XLSX.writeFile(workbook, "Exam_Questions_Template.xlsx");
   };
 
-  // --- NEW: LOGO UPLOAD HANDLER ---
+  // ---  LOGO UPLOAD HANDLER ---
   const handleLogoUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -285,7 +285,7 @@ function CreateExam() {
       return toast.error("Passing Marks cannot be higher than Total Marks!");
     }
 
-    // --- NEW: QUESTION VALIDATION (Fixes "Path required" error) ---
+    // ---  QUESTION VALIDATION (Fixes "Path required" error) ---
     for (let i = 0; i < questions.length; i++) {
       if (
         !questions[i].questionText ||
@@ -302,7 +302,6 @@ function CreateExam() {
         }
       }
     }
-    // -------------------------------------------------------------
 
     // Filter out empty rules
     const filteredRules = examRules.filter((rule) => rule.trim() !== "");
@@ -324,7 +323,7 @@ function CreateExam() {
     };
 
     try {
-      // ✅ CHANGED: Use api helper (Token is auto-injected)
+      //  Use api helper (Token is auto-injected)
       await api.post("/api/exams", examData);
 
       if (status === "published") {
@@ -390,7 +389,7 @@ function CreateExam() {
                     type="text"
                     value={accessCode}
                     onChange={(e) =>
-                      // FIX: Replace spaces with empty string
+                      //  Replace spaces with empty string
                       setAccessCode(
                         e.target.value.toUpperCase().replace(/\s/g, "")
                       )
@@ -420,7 +419,7 @@ function CreateExam() {
                 ></textarea>
               </div>
 
-              {/* --- NEW: INSTITUTE NAME --- */}
+              {/* ---  INSTITUTE NAME --- */}
               <div className="input-group">
                 <label>Institute / University Name</label>
                 <input
@@ -470,7 +469,7 @@ function CreateExam() {
               </div>
             </div>
 
-            {/* --- NEW SECTION: EXAM RULES --- */}
+            {/* ---  EXAM RULES --- */}
             <div className="section-card">
               <h2>2. Instructions & Rules</h2>
               <p
@@ -701,7 +700,7 @@ function CreateExam() {
                 </div>
               ))}
 
-              {/* --- NEW LOCATION: ADD BUTTON AT BOTTOM --- */}
+              {/* ---  ADD BUTTON AT BOTTOM --- */}
               <div
                 style={{
                   marginTop: "20px",
@@ -805,7 +804,7 @@ function CreateExam() {
                     />
                   </div>
 
-                  {/* --- UPDATED: LOGO UPLOAD --- */}
+                  {/* ---  LOGO UPLOAD --- */}
                   <div className="input-group">
                     <label>Institute Logo</label>
                     <div

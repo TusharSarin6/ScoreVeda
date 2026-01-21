@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../utils/api"; // ✅ CHANGED: Import the new helper
+import api from "../utils/api"; 
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../components/Navbar";
 import "./Dashboard.css";
@@ -10,8 +10,7 @@ function Dashboard() {
   //Get user info
   const storedUser = JSON.parse(localStorage.getItem("user"));
 
-  // ✅ FIX: Redirect to Login if no user is found
-  // This prevents the "White Screen" issue on the live site
+  //  Redirect to Login if no user is found
   useEffect(() => {
     if (!storedUser) {
       navigate("/login");
@@ -37,7 +36,7 @@ function Dashboard() {
     if (user && user.role === "admin") {
       const fetchAdminData = async () => {
         try {
-          // ✅ CHANGED: Use api helper (Token is auto-injected)
+          //  Use api helper (Token is auto-injected)
           const { data } = await api.get("/api/exams");
 
           // Filter to show only MY exams
@@ -57,9 +56,9 @@ function Dashboard() {
   const handleJoinExam = async (e) => {
     e.preventDefault();
 
-    // --- NEW: ALWAYS SYNC USER DATA FROM SERVER ---
+    // ---  ALWAYS SYNC USER DATA FROM SERVER ---
     try {
-      // ✅ CHANGED: Use api helper
+      
       // Fetch fresh user profile
       const { data: freshUser } = await api.get("/api/users/me");
 
@@ -81,7 +80,7 @@ function Dashboard() {
         return;
       }
 
-      // === NEW: PROFILE COMPLETION CHECK ===
+      // ===  PROFILE COMPLETION CHECK ===
       const isProfileComplete =
         freshUser.gender && freshUser.birthday && freshUser.phone;
 
@@ -104,7 +103,7 @@ function Dashboard() {
     if (!examCode.trim()) return toast.error("Please enter a code");
     setLoading(true);
     try {
-      // ✅ CHANGED: Use api helper
+      //  Use api helper
       // 1. Verify Code
       const { data } = await api.post("/api/exams/join", {
         accessCode: examCode,
@@ -114,7 +113,7 @@ function Dashboard() {
       if (data && data.examId) {
         toast.success(`Exam Found! Please read instructions.`);
         setTimeout(() => {
-          // --- UPDATED: Go to Instructions Page First ---
+          // ---  Go to Instructions Page First ---
           navigate(`/instructions/${data.examId}`);
         }, 1000);
       }
@@ -151,7 +150,7 @@ function Dashboard() {
 
             <div
               className="action-card profile-card"
-              // ✅ UPDATED: Redirects to 'exams' tab in profile (Published Exams)
+              //  Redirects to 'exams' tab in profile (Published Exams)
               onClick={() =>
                 navigate("/profile", { state: { activeTab: "exams" } })
               }

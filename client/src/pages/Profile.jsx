@@ -111,7 +111,7 @@ function Profile() {
     if (userData.role !== "student") return;
     const fetchMyHistory = async () => {
       try {
-        // ✅ CHANGED: Used api helper (no need for manual headers)
+        // Used api helper (no need for manual headers)
         const { data } = await api.get("/api/exams/my-results");
         setResults(data);
       } catch (error) {
@@ -127,7 +127,7 @@ function Profile() {
 
     const fetchPublishedExams = async () => {
       try {
-        // ✅ CHANGED: Used api helper
+        //  Used api helper
         const { data } = await api.get("/api/exams");
         setAdminExams(data);
       } catch (error) {
@@ -207,7 +207,7 @@ function Profile() {
       }
     }
     try {
-      // ✅ CHANGED: Used api helper & Removed explicit token header
+      // Used api helper & Removed explicit token header
       const { data } = await api.put("/api/users/profile-info", editForm);
 
       const newUser = { ...userData, ...data };
@@ -225,7 +225,7 @@ function Profile() {
     if (type !== "email") return;
 
     try {
-      // ✅ CHANGED
+      
       const { data } = await api.post("/api/users/send-otp", { type });
       toast.info(data.message);
       setOtpType(type);
@@ -245,13 +245,12 @@ function Profile() {
   // --- VERIFY OTP (Email Only) ---
   const handleVerifyOtp = async () => {
     try {
-      // ✅ CHANGED
+      
       const { data } = await api.post("/api/users/verify-otp", {
         type: otpType,
         otp: otpInput,
       });
 
-      // ---  Update the correct field name 'isEmailVerified' ---
       const newUser = { ...userData };
       if (otpType === "email") {
         newUser.isEmailVerified = true;
@@ -281,7 +280,7 @@ function Profile() {
     }
 
     try {
-      // ✅ CHANGED
+      
       const { data } = await api.post("/api/users/change-password", {
         currentPassword,
         newPassword,
@@ -294,7 +293,7 @@ function Profile() {
     }
   };
 
-  // --- NEW: HANDLE CHANGE EMAIL ---
+  // ---  HANDLE CHANGE EMAIL ---
   const handleChangeEmail = async () => {
     const { newEmail, password } = emailForm;
 
@@ -304,7 +303,7 @@ function Profile() {
     }
 
     try {
-      // ✅ CHANGED
+      
       // STEP 1: SEND OTP TO NEW EMAIL
       const { data } = await api.post("/api/users/change-email", {
         newEmail,
@@ -326,7 +325,7 @@ function Profile() {
     }
 
     try {
-      // ✅ CHANGED
+      
       const { data } = await api.post("/api/users/change-email/verify-otp", {
         otp: emailOtp,
       });
@@ -361,7 +360,7 @@ function Profile() {
     formData.append("profilePic", file);
 
     try {
-      // ✅ CHANGED: Note we need to manually set content-type for files, but auth header is auto-handled
+      //  Note we need to manually set content-type for files, but auth header is auto-handled
       const config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -385,7 +384,7 @@ function Profile() {
   const handleDeletePhoto = async () => {
     if (!window.confirm("Remove profile photo?")) return;
     try {
-      // ✅ CHANGED
+      
       await api.delete("/api/users/delete-photo");
 
       const updatedUser = { ...userData, profilePic: "" };
@@ -401,9 +400,7 @@ function Profile() {
   const handleDownloadPhoto = async () => {
     if (!userData.profilePic) return;
     try {
-      // ✅ Note: For downloading files via `fetch`, we still use the full URL logic if needed,
-      // but usually the profilePic string is a relative path.
-      // We can use api.defaults.baseURL to construct it properly.
+    
       const baseURL = api.defaults.baseURL;
       const response = await fetch(`${baseURL}${userData.profilePic}`);
       const blob = await response.blob();
@@ -428,7 +425,7 @@ function Profile() {
     if (!confirmDelete) return;
 
     try {
-      // ✅ CHANGED
+      
       await api.delete(`/api/exams/${examId}`);
 
       toast.success("Exam deleted successfully");
@@ -451,7 +448,7 @@ function Profile() {
           (exam.isPublished ? "Exam Unpublished" : "Exam Published Live")
       );
 
-      // ✅ IMMEDIATE STATE UPDATE (Fixes the UI issue)
+      //  IMMEDIATE STATE UPDATE 
       setAdminExams((prevExams) =>
         prevExams.map((e) =>
           e._id === exam._id ? { ...e, isPublished: !e.isPublished } : e
@@ -583,8 +580,6 @@ function Profile() {
     doc.setFontSize(38);
     doc.setTextColor(themeColor);
     doc.text(title, 450, 210, { align: "center" });
-
-    // --- NEW BODY TEXT LAYOUT (With Bold Variables) ---
 
     // 1. "This is to certify that"
     doc.setFontSize(18);
@@ -734,7 +729,7 @@ function Profile() {
       return;
 
     try {
-      // ✅ CHANGED
+      
       // 1. Send OTP specifically for deletion
       const { data } = await api.post("/api/users/send-delete-otp", {});
 
@@ -1072,7 +1067,7 @@ function Profile() {
               <button onClick={handleChangePassword} className="btn-confirm">
                 Update
               </button>
-              {/* FIX: Call handleClosePasswordModal to clear data on cancel */}
+              {/*  Call handleClosePasswordModal to clear data on cancel */}
               <button onClick={handleClosePasswordModal} className="btn-cancel">
                 Cancel
               </button>
@@ -1178,7 +1173,7 @@ function Profile() {
               <button
                 onClick={handleConfirmDelete}
                 className="btn-confirm"
-                style={{ background: "#e74c3c" }} // Red button for danger
+                style={{ background: "#e74c3c" }} 
               >
                 Confirm Delete
               </button>
@@ -1206,7 +1201,6 @@ function Profile() {
             style={{ position: "relative", maxHeight: "90%", maxWidth: "90%" }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* ✅ CHANGED: Use api.defaults.baseURL for dynamic image URL */}
             <img
               src={`${api.defaults.baseURL}${userData.profilePic}`}
               alt="Full View"
@@ -1270,7 +1264,7 @@ function Profile() {
               }}
             >
               {userData.profilePic ? (
-                // ✅ CHANGED: Dynamic Image URL
+                
                 <img
                   src={`${api.defaults.baseURL}${userData.profilePic}`}
                   alt="Profile"
@@ -1324,7 +1318,6 @@ function Profile() {
             <div
               className="avatar-lg"
               style={{
-                // ✅ CHANGED: Dynamic Background Image
                 backgroundImage: userData.profilePic
                   ? `url(${api.defaults.baseURL}${userData.profilePic})`
                   : "none",
@@ -1476,7 +1469,6 @@ function Profile() {
                       <div
                         className="mini-avatar"
                         style={{
-                          // ✅ CHANGED: Dynamic Mini Avatar
                           backgroundImage: userData.profilePic
                             ? `url(${api.defaults.baseURL}${userData.profilePic})`
                             : "none",
@@ -1594,7 +1586,7 @@ function Profile() {
             {/* ===================== EXAMS TAB ===================== */}
             {activeTab === "exams" && (
               <div className="tab-content fade-in">
-                {/* ===== STUDENT VIEW (UNCHANGED CODE) ===== */}
+                {/* ===== STUDENT VIEW  ===== */}
                 {userData.role !== "admin" && (
                   <>
                     <h2>Exam History</h2>
@@ -1749,7 +1741,7 @@ function Profile() {
                   </>
                 )}
 
-                {/* ===== ADMIN VIEW (NEW, UI ONLY) ===== */}
+                {/* ===== ADMIN VIEW  ===== */}
                 {userData.role === "admin" && (
                   <>
                     <h2>My Published Exams</h2>

@@ -11,7 +11,7 @@ const {
   sendEmailChangedConfirmationEmail,
 } = require("../utils/emailService");
 
-// @desc    Register a new user
+//  Register a new user
 const registerUser = async (req, res) => {
   const { name, email, password, role, googleId } = req.body;
 
@@ -20,7 +20,7 @@ const registerUser = async (req, res) => {
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
-    // ✅ STRONG PASSWORD CHECK (Only if not Google Login)
+    //  STRONG PASSWORD CHECK (Only if not Google Login)
     if (!googleId && password) {
       const strongPasswordRegex =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -41,7 +41,7 @@ const registerUser = async (req, res) => {
     });
 
     if (user) {
-      // FIX: Safety check to prevent crash if email service fails
+      //  Safety check to prevent crash if email service fails
       if (typeof sendWelcomeEmail === "function") {
         sendWelcomeEmail(user.email, user.name).catch((err) =>
           console.error("Email Error:", err.message)
@@ -64,7 +64,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-// @desc    Authenticate a user
+//  Authenticate a user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -119,7 +119,7 @@ const deleteUserProfile = async (req, res) => {
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // ✅ VERIFY OTP
+    // VERIFY OTP
     if (
       !user.otp ||
       user.otp.code !== otp ||
@@ -236,7 +236,7 @@ const sendOtp = async (req, res) => {
   user.otp = { code: otpCode, type: "email", expiresAt };
   await user.save();
 
-  // FIX: Safety check for email function
+  //  Safety check for email function
   if (typeof sendOtpEmail === "function") {
     sendOtpEmail(user.email, user.name, otpCode).catch((err) =>
       console.error("OTP Email failed:", err.message)
@@ -299,7 +299,7 @@ const changePassword = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Incorrect current password" });
     }
-    // ✅ NEW: STRONG PASSWORD CHECK
+    //  STRONG PASSWORD CHECK
     const strongPasswordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!strongPasswordRegex.test(newPassword)) {
@@ -323,7 +323,7 @@ const changePassword = async (req, res) => {
   }
 };
 
-// --- NEW: Change Email Logic ---
+// ---  Change Email Logic ---
 const changeEmail = async (req, res) => {
   try {
     const { newEmail, password } = req.body;
@@ -349,7 +349,7 @@ const changeEmail = async (req, res) => {
     user.emailChangeOtp = { code: otpCode, expiresAt };
     await user.save();
 
-    // FIX: Safety check to prevent 500 error if email service fails
+    //  Safety check to prevent 500 error if email service fails
     if (typeof sendOtpEmail === "function") {
       sendOtpEmail(newEmail, user.name, otpCode).catch((err) =>
         console.error("Email Error:", err.message)
@@ -365,8 +365,7 @@ const changeEmail = async (req, res) => {
   }
 };
 
-// 🔐 SECURE EMAIL CHANGE – STEP 2 (VERIFY OTP)
-// --------------------------------------------------
+//  SECURE EMAIL CHANGE – STEP 2 (VERIFY OTP)
 const verifyChangeEmailOtp = async (req, res) => {
   try {
     const { otp } = req.body;
@@ -416,9 +415,7 @@ const verifyChangeEmailOtp = async (req, res) => {
   }
 };
 
-// -----------------------------
-// ✅ FORGOT PASSWORD (PUBLIC)
-// -----------------------------
+// FORGOT PASSWORD (PUBLIC)
 const forgotPasswordSendOtp = async (req, res) => {
   const { email } = req.body;
 
@@ -480,7 +477,7 @@ const resetPasswordWithOtp = async (req, res) => {
   ) {
     return res.status(400).json({ message: "Invalid or expired OTP" });
   }
-  // ✅ NEW: STRONG PASSWORD CHECK
+  //  STRONG PASSWORD CHECK
   const strongPasswordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   if (!strongPasswordRegex.test(newPassword)) {
@@ -520,8 +517,6 @@ const sendDeleteOtp = async (req, res) => {
     await user.save();
 
     // Send Email
-    // Note: Ensure you import sendOtpEmail or use a generic sendEmail function
-    // For now, we use the existing sendOtpEmail helper
     if (typeof sendOtpEmail === "function") {
       await sendOtpEmail(
         user.email,

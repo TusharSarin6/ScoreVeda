@@ -215,7 +215,7 @@
   background: white;
 }
 
-/* NEW: Phone Input Group (+91) */
+/*  Phone Input Group (+91) */
 .phone-input-group {
   display: flex;
   align-items: center;
@@ -447,11 +447,11 @@
   color: white;
   font-size: 64px;
   font-weight: bold;
-  cursor: zoom-in; /* NEW: Indicates clickable */
+  cursor: zoom-in; /*  Indicates clickable */
   transition: transform 0.2s ease;
 }
 .big-avatar:hover {
-  transform: scale(1.05); /* NEW: Hover effect */
+  transform: scale(1.05); /*  Hover effect */
 }
 .big-avatar img {
   width: 100%;
@@ -490,7 +490,7 @@
   border-color: #f9d7d4;
 }
 
-/* --- 7. EXAM HISTORY TABLE (Legacy Styles Updated) --- */
+/* --- 7. EXAM HISTORY TABLE  --- */
 .table-responsive {
   margin-top: 20px;
   overflow-x: auto;

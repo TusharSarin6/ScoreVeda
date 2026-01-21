@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../utils/api"; // ✅ CHANGED: Import the new helper
+import api from "../utils/api"; 
 import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,15 +15,13 @@ function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
-
-  // ✅ NEW: CONFIRM PASSWORD
   const [confirmPassword, setConfirmPassword] = useState("");
 
   // UI STATE
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // ✅ NEW: RESEND OTP TIMER STATE
+  //  RESEND OTP TIMER STATE
   const [resendTimer, setResendTimer] = useState(60);
   const [canResendOtp, setCanResendOtp] = useState(false);
 
@@ -51,12 +49,12 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      // ✅ CHANGED: Use api helper
+      //  Use api helper
       await api.post("/api/users/forgot-password/send-otp", { email });
       toast.success("OTP sent to your email");
       setStep(2);
 
-      // ✅ RESET TIMER ON SEND
+      //  RESET TIMER ON SEND
       setResendTimer(60);
       setCanResendOtp(false);
     } catch (error) {
@@ -72,7 +70,7 @@ function ForgotPassword() {
 
     try {
       setLoading(true);
-      // ✅ CHANGED: Use api helper
+      // Use api helper
       await api.post("/api/users/forgot-password/send-otp", { email });
       toast.success("New OTP sent to your email");
 
@@ -92,7 +90,7 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      // ✅ CHANGED: Use api helper
+      // Use api helper
       await api.post("/api/users/forgot-password/verify-otp", {
         email,
         otp,
@@ -110,7 +108,7 @@ function ForgotPassword() {
   const resetPassword = async (e) => {
     e.preventDefault();
 
-    // ✅ FRONTEND VALIDATION
+    //  FRONTEND VALIDATION
     if (newPassword !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
@@ -119,7 +117,7 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      // ✅ CHANGED: Use api helper
+      // Use api helper
       await api.post("/api/users/forgot-password/reset", {
         email,
         otp,
@@ -213,7 +211,7 @@ function ForgotPassword() {
                 {loading ? "Verifying..." : "Verify OTP"}
               </button>
 
-              {/* ✅ RESEND OTP SECTION */}
+              {/* RESEND OTP SECTION */}
               <div style={{ marginTop: "12px", textAlign: "center" }}>
                 {!canResendOtp ? (
                   <span style={{ fontSize: "13px", color: "#aaa" }}>
@@ -269,7 +267,7 @@ function ForgotPassword() {
                 </span>
               </div>
 
-              {/* ✅ CONFIRM PASSWORD */}
+              {/* CONFIRM PASSWORD */}
               <div className="input-group">
                 <input
                   type={showPassword ? "text" : "password"}

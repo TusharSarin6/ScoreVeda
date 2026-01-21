@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../utils/api"; // ✅ CHANGED: Import the new helper
+import api from "../utils/api"; 
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../components/Navbar";
 import "./TakeExam.css";
@@ -51,7 +51,7 @@ function TakeExam() {
   useEffect(() => {
     const fetchExamAndCheckStatus = async () => {
       try {
-        // ✅ CHANGED: Use api helper
+        // Use api helper
         // A. Fetch Exam
         const { data: examData } = await api.get(`/api/exams/${id}`);
 
@@ -115,7 +115,7 @@ function TakeExam() {
         };
 
         // KEEPALIVE FETCH: This runs even if the browser tab closes
-        // ✅ CHANGED: Use api.defaults.baseURL for keepalive fetch
+        // Use api.defaults.baseURL for keepalive fetch
         fetch(`${api.defaults.baseURL}/api/exams/submit`, {
           method: "POST",
           headers: {
@@ -184,7 +184,7 @@ function TakeExam() {
     setIsSubmitting(true);
 
     try {
-      // ✅ CHANGED: Use api helper
+      // Use api helper
       const payload = { examId: id, userAnswers: answers };
 
       const toastId = toast.loading("Submitting Exam...");
@@ -305,10 +305,10 @@ function TakeExam() {
     };
 
     if (isMobile) {
-      // ✅ On Mobile: Bypass Full Screen Requirement (Fixes iOS Issue)
+      // On Mobile: Bypass Full Screen Requirement (Fixes iOS Issue)
       setIsFullScreen(true);
     } else {
-      // 💻 On Desktop: Force Full Screen
+      //  On Desktop: Force Full Screen
       enterFullScreen();
       document.addEventListener("fullscreenchange", handleFullScreenChange);
     }
@@ -438,7 +438,7 @@ function TakeExam() {
 
   return (
     <>
-      {/* ✅ FULL SCREEN ENFORCEMENT OVERLAY */}
+      {/* FULL SCREEN ENFORCEMENT OVERLAY */}
       {!isFullScreen && !alreadyAttempted && !isSubmitting && exam && (
         <div
           style={{

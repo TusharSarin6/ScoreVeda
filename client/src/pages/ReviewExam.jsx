@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../utils/api"; // ✅ CHANGED: Import the new helper
+import api from "../utils/api"; 
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../components/Navbar";
 import "./ReviewExam.css";
@@ -26,7 +26,7 @@ function ReviewExam() {
   // 1. Fetch Result & Exam Data
   useEffect(() => {
     const fetchData = async () => {
-      // ✅ CHANGED: Use api helper
+      // Use api helper
       if (!user || !user.token) return;
       try {
         // A. Get the Result (Populated with User info)
@@ -142,7 +142,7 @@ function ReviewExam() {
         remarks: globalRemark, // <--- Send global remark
       };
 
-      // ✅ CHANGED: Use api helper
+      // Use api helper
       await api.put(`/api/exams/result/${id}`, payload);
 
       toast.success("Grades & Remarks Published Successfully!");
@@ -157,7 +157,7 @@ function ReviewExam() {
     }
   };
 
-  // --- FIX: Safety check for user login ---
+  // ---  Safety check for user login ---
   if (!user) {
     return (
       <h2 style={{ textAlign: "center", marginTop: "50px", color: "white" }}>
@@ -202,7 +202,7 @@ function ReviewExam() {
               Exam: {exam.title}
             </p>
 
-            {/* ✅ NEW: Created & Attempted Dates */}
+            {/*  Created & Attempted Dates */}
             <div
               style={{
                 fontSize: "1.3rem",

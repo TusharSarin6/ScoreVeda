@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../utils/api"; // ✅ CHANGED: Import the new helper
+import api from "../utils/api"; 
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../components/Navbar";
 import "./ExamInstructions.css";
@@ -17,7 +17,7 @@ function ExamInstructions() {
   useEffect(() => {
     const fetchExamDetails = async () => {
       try {
-        // ✅ CHANGED: Use api helper (Token is auto-injected)
+        //  Use api helper (Token is auto-injected)
         const { data } = await api.get(`/api/exams/${id}`);
         setExam(data);
         setLoading(false);

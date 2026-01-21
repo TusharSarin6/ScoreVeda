@@ -1,6 +1,6 @@
 import { useLocation, Link, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import api from "../utils/api"; // ✅ CHANGED: Import the new helper
+import api from "../utils/api"; 
 import Navbar from "../components/Navbar";
 import jsPDF from "jspdf";
 import { toast } from "react-toastify"; // Added for notifications
@@ -28,7 +28,7 @@ function ResultPage() {
 
       const fetchResult = async () => {
         try {
-          // ✅ CHANGED: Use api helper
+          // Use api helper
           const { data } = await api.get(`/api/exams/result/${id}`);
           setFetchedResult(data);
         } catch (error) {
@@ -206,8 +206,6 @@ function ResultPage() {
     doc.setTextColor(themeColor);
     doc.text(title, 450, 210, { align: "center" });
 
-    // --- NEW BODY TEXT LAYOUT ---
-
     // 1. "This is to certify that"
     doc.setFontSize(18);
     doc.setFont("times", "italic");
@@ -370,7 +368,7 @@ function ResultPage() {
 
         {/* --- MAIN SCORE CARD --- */}
         <div className="result-card">
-          {/* ✅ NEW: Exam Title & Code Header */}
+          {/*  Exam Title & Code Header */}
           <div
             style={{
               display: "flex",

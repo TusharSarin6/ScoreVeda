@@ -68,7 +68,6 @@ const examSchema = mongoose.Schema(
       default: "ScoreVeda Institute", // Default value if admin leaves blank
     },
 
-    // FIX: Changed from [{type:String}] to [String] to store simple text array
     examRules: {
       type: [String],
       default: [],

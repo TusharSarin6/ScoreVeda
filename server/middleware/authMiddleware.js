@@ -21,11 +21,11 @@ const protect = async (req, res, next) => {
 
       next();
     } catch (error) {
-      console.error(error); // See the specific error
+      console.error(error); 
       return res.status(401).json({ message: "Not authorized" });
     }
   } else {
-    // ✅ FIX: Explicit response if token missing
+    //  Explicit response if token missing
     return res.status(401).json({ message: "No token, authorization denied" });
   }
 };

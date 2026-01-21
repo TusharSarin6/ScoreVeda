@@ -119,7 +119,7 @@
   color: #333;
   line-height: 1.6;
   margin-bottom: 25px;
-  word-break: break-word; /* Fix long words */
+  word-break: break-word;
 }
 
 /* OPTIONS & INPUTS */
@@ -352,12 +352,12 @@
 
 /* --- MOBILE & TABLET OPTIMIZATIONS --- */
 @media (max-width: 900px) {
-  /* 1. Fix Split Layout: Stack Question and Palette vertically */
+  /* 1.  Split Layout: Stack Question and Palette vertically */
   .take-exam-container-split {
     flex-direction: column;
-    height: auto;       /* Disable fixed height so it scrolls naturally */
-    overflow-y: auto;   /* Enable vertical scrolling */
-    overflow-x: hidden; /* Stop horizontal wobble */
+    height: auto;       
+    overflow-y: auto;   
+    overflow-x: hidden; 
   }
 
   /* 2. Adjust Question Area Padding */
@@ -403,7 +403,7 @@
     margin-bottom: 10px;
   }
   
-  /* 6. Fix Button Overflow - Make them stacked or grid */
+  /* 6.  Button Overflow - Make them stacked or grid */
   .footer-controls {
     flex-direction: column; /* Stack buttons vertically */
     gap: 15px;

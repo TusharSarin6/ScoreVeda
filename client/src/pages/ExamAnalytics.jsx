@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../utils/api"; // ✅ CHANGED: Import the new helper
+import api from "../utils/api"; 
 import Navbar from "../components/Navbar";
 import {
   PieChart,
@@ -23,7 +23,7 @@ function ExamAnalytics() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // ✅ CHANGED: Use api helper (Token is auto-injected)
+        //  Use api helper (Token is auto-injected)
         const { data } = await api.get(`/api/exams/analytics/${id}`);
         setStats(data);
       } catch (error) {
@@ -45,7 +45,7 @@ function ExamAnalytics() {
     { name: "Passed", value: stats.passedCount },
     { name: "Failed", value: stats.failedCount },
   ];
-  const COLORS = ["#2ecc71", "#e74c3c"]; // Green for Pass, Red for Fail
+  const COLORS = ["#2ecc71", "#e74c3c"]; 
 
   return (
     <>
