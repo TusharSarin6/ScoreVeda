@@ -230,7 +230,7 @@ const sendOtp = async (req, res) => {
       .status(400)
       .json({ message: "Only email verification is supported." });
 
-  const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+  const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
   const expiresAt = new Date(Date.now() + 10 * 60000);
 
   user.otp = { code: otpCode, type: "email", expiresAt };
@@ -342,7 +342,7 @@ const changeEmail = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "Incorrect password" });
-    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
     const expiresAt = new Date(Date.now() + 10 * 60000);
 
     user.pendingEmail = newEmail;
@@ -431,7 +431,7 @@ const forgotPasswordSendOtp = async (req, res) => {
       .json({ message: "Google users cannot reset password here." });
   }
 
-  const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+  const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
   const expiresAt = new Date(Date.now() + 10 * 60000);
 
   user.otp = { code: otpCode, type: "email", expiresAt };
@@ -505,7 +505,7 @@ const sendDeleteOtp = async (req, res) => {
     if (!user) return res.status(404).json({ message: "User not found" });
 
     // Generate 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
 
     // Save OTP to user document (expires in 10 mins)
     // We reuse the 'otp' field structure or create a specific one
