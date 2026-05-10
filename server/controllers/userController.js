@@ -12,15 +12,22 @@ const {
 } = require("../utils/emailService");
 
 //  Register a new user
+// --- Register a new user ---
 const registerUser = async (req, res) => {
+  // 1. Get the raw data from the request body
   const { name, email, password, role, googleId } = req.body;
 
+  // 2. DEFINE normalizedEmail at the very top
+  const normalizedEmail = email ? email.toLowerCase() : email;
+
   try {
-    const userExists = await User.findOne({ email });
+    // 3. Use normalizedEmail to check if the user exists
+    const userExists = await User.findOne({ email: normalizedEmail });
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
-    //  STRONG PASSWORD CHECK (Only if not Google Login)
+
+    // STRONG PASSWORD CHECK (Only if not Google Login)
     if (!googleId && password) {
       const strongPasswordRegex =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -32,32 +39,34 @@ const registerUser = async (req, res) => {
       }
     }
 
+    // 4. Create the user with the normalizedEmail
     const user = await User.create({
       name,
-      email,
+      email: normalizedEmail,
       password: password || undefined,
       role: role || "student",
       googleId: googleId || undefined,
     });
 
     if (user) {
-      //  Safety check to prevent crash if email service fails
+      // Safety check for welcome email
       if (typeof sendWelcomeEmail === "function") {
         sendWelcomeEmail(user.email, user.name).catch((err) =>
-          console.error("Email Error:", err.message)
+          console.error("Email Error:", err.message),
         );
       }
+
+      // 5. Send back the response
       res.status(201).json({
         _id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,
         createdAt: user.createdAt,
-        message: "Registration Sucessful! Please Login.",
+        message: "Registration Successful! Please Login.",
       });
     } else {
-      res.status(400);
-      throw new Error({ message: "Invalid user data" });
+      res.status(400).json({ message: "Invalid user data" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -68,8 +77,10 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
+  const normalizedEmail = email ? email.toLowerCase() : email;
+
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: normalizedEmail });
 
     if (
       user &&
@@ -160,7 +171,7 @@ const uploadProfilePic = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       req.user.id,
       { profilePic: profilePicUrl },
-      { new: true }
+      { new: true },
     );
     res.status(200).json({
       profilePic: user.profilePic,
@@ -239,7 +250,7 @@ const sendOtp = async (req, res) => {
   //  Safety check for email function
   if (typeof sendOtpEmail === "function") {
     sendOtpEmail(user.email, user.name, otpCode).catch((err) =>
-      console.error("OTP Email failed:", err.message)
+      console.error("OTP Email failed:", err.message),
     );
   }
 
@@ -327,6 +338,10 @@ const changePassword = async (req, res) => {
 const changeEmail = async (req, res) => {
   try {
     const { newEmail, password } = req.body;
+
+    // 1. Normalize the new email immediately
+    const normalizedNewEmail = newEmail ? newEmail.toLowerCase() : newEmail;
+
     const user = await User.findById(req.user.id);
 
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -335,24 +350,28 @@ const changeEmail = async (req, res) => {
         .status(400)
         .json({ message: "Google users cannot change email here." });
 
-    const emailExists = await User.findOne({ email: newEmail });
+    // 2. Check for duplicates using the normalized email
+    const emailExists = await User.findOne({ email: normalizedNewEmail });
     if (emailExists)
       return res.status(400).json({ message: "Email already in use." });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
       return res.status(400).json({ message: "Incorrect password" });
+
     const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
     const expiresAt = new Date(Date.now() + 10 * 60000);
 
-    user.pendingEmail = newEmail;
+    // 3. Store the normalized version in pendingEmail
+    user.pendingEmail = normalizedNewEmail;
     user.emailChangeOtp = { code: otpCode, expiresAt };
     await user.save();
 
-    //  Safety check to prevent 500 error if email service fails
+    // Safety check to prevent 500 error if email service fails
     if (typeof sendOtpEmail === "function") {
-      sendOtpEmail(newEmail, user.name, otpCode).catch((err) =>
-        console.error("Email Error:", err.message)
+      // 4. Send the OTP to the normalized email address
+      sendOtpEmail(normalizedNewEmail, user.name, otpCode).catch((err) =>
+        console.error("Email Error:", err.message),
       );
     } else {
       console.warn("sendOtpEmail is not a function. Check emailService.js");
@@ -360,7 +379,7 @@ const changeEmail = async (req, res) => {
 
     res.json({ message: "OTP sent to new email address" });
   } catch (error) {
-    console.error(error); // Log the actual error
+    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -395,14 +414,14 @@ const verifyChangeEmailOtp = async (req, res) => {
         oldEmail,
         user.name,
         oldEmail,
-        newEmail
+        newEmail,
       ).catch(() => {});
       // Send to NEW email for confirmation
       sendEmailChangedConfirmationEmail(
         newEmail,
         user.name,
         oldEmail,
-        newEmail
+        newEmail,
       ).catch(() => {});
     }
 
@@ -416,33 +435,50 @@ const verifyChangeEmailOtp = async (req, res) => {
 };
 
 // FORGOT PASSWORD (PUBLIC)
+// FORGOT PASSWORD (PUBLIC) - Updated for 4-digit OTP & Lowercase Normalization
 const forgotPasswordSendOtp = async (req, res) => {
   const { email } = req.body;
 
-  const user = await User.findOne({ email });
-  if (!user)
-    return res
-      .status(404)
-      .json({ message: "No account found with this email" });
+  // 1. Normalize the input email to lowercase
+  const normalizedEmail = email ? email.toLowerCase() : email;
 
-  if (user.googleId) {
-    return res
-      .status(400)
-      .json({ message: "Google users cannot reset password here." });
+  try {
+    // 2. Find the user using the normalized email
+    const user = await User.findOne({ email: normalizedEmail });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "No account found with this email" });
+    }
+
+    // 3. Security check: Don't allow password reset for Google OAuth accounts
+    if (user.googleId) {
+      return res
+        .status(400)
+        .json({ message: "Google users cannot reset password here." });
+    }
+
+    // 4. Generate 4-digit OTP
+    const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60000); // 10 minutes expiry
+
+    // 5. Save the OTP to the user document
+    user.otp = { code: otpCode, type: "email", expiresAt };
+    await user.save();
+
+    // 6. Send the email with a safety catch
+    if (typeof sendForgotPasswordOtpEmail === "function") {
+      sendForgotPasswordOtpEmail(user.email, user.name, otpCode).catch((err) =>
+        console.error("Forgot Password Email Error:", err.message),
+      );
+    }
+
+    res.json({ message: "OTP sent to your email" });
+  } catch (error) {
+    console.error("Forgot Password Error:", error.message);
+    res.status(500).json({ message: "Server error" });
   }
-
-  const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
-  const expiresAt = new Date(Date.now() + 10 * 60000);
-
-  user.otp = { code: otpCode, type: "email", expiresAt };
-  await user.save();
-
-  if (typeof sendForgotPasswordOtpEmail === "function") {
-    sendForgotPasswordOtpEmail(user.email, user.name, otpCode).catch(
-      (err) => {}
-    );
-  }
-  res.json({ message: "OTP sent to your email" });
 };
 
 const forgotPasswordVerifyOtp = async (req, res) => {
@@ -463,39 +499,57 @@ const forgotPasswordVerifyOtp = async (req, res) => {
   res.json({ message: "OTP verified successfully" });
 };
 
+// RESET PASSWORD (PUBLIC)
 const resetPasswordWithOtp = async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
-  const user = await User.findOne({ email });
-  if (!user || !user.otp)
-    return res.status(400).json({ message: "Invalid request" });
+  // 1. Normalize email to lowercase to match the stored record
+  const normalizedEmail = email ? email.toLowerCase() : email;
 
-  if (
-    user.otp.code !== otp ||
-    user.otp.type !== "email" ||
-    new Date() > user.otp.expiresAt
-  ) {
-    return res.status(400).json({ message: "Invalid or expired OTP" });
+  try {
+    // 2. Find user using the normalized email
+    const user = await User.findOne({ email: normalizedEmail });
+
+    if (!user || !user.otp) {
+      return res.status(400).json({ message: "Invalid request" });
+    }
+
+    // 3. Verify OTP code, type, and expiration
+    if (
+      user.otp.code !== otp ||
+      user.otp.type !== "email" ||
+      new Date() > user.otp.expiresAt
+    ) {
+      return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+
+    // 4. STRONG PASSWORD CHECK
+    const strongPasswordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!strongPasswordRegex.test(newPassword)) {
+      return res.status(400).json({
+        message:
+          "Password must be 8+ chars with Uppercase, Lowercase, Number & Special Char (@$!%*?&)",
+      });
+    }
+
+    // 5. Update password and clear the OTP field
+    user.password = newPassword; // This will be hashed by your User model's pre-save middleware
+    user.otp = null;
+    await user.save();
+
+    // 6. Send confirmation email (Asynchronous)
+    if (typeof sendPasswordChangedEmail === "function") {
+      sendPasswordChangedEmail(user.email, user.name).catch((err) =>
+        console.error("Password change confirmation failed:", err.message),
+      );
+    }
+
+    res.json({ message: "Password reset successfully" });
+  } catch (error) {
+    console.error("Reset Password Error:", error.message);
+    res.status(500).json({ message: "Server error" });
   }
-  //  STRONG PASSWORD CHECK
-  const strongPasswordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  if (!strongPasswordRegex.test(newPassword)) {
-    return res.status(400).json({
-      message:
-        "Password must be 8+ chars with Uppercase, Lowercase, Number & Special Char (@$!%*?&)",
-    });
-  }
-
-  user.password = newPassword; // hashed by model
-  user.otp = null;
-  await user.save();
-
-  if (typeof sendPasswordChangedEmail === "function") {
-    sendPasswordChangedEmail(user.email, user.name).catch((err) => {});
-  }
-
-  res.json({ message: "Password reset successfully" });
 };
 
 // --- Send OTP for Account Deletion ---
@@ -522,7 +576,7 @@ const sendDeleteOtp = async (req, res) => {
         user.email,
         user.name,
         otp,
-        "Security Alert: Account Deletion OTP" // Subject line
+        "Security Alert: Account Deletion OTP", // Subject line
       );
     }
 

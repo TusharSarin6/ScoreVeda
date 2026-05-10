@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../utils/api"; 
+import api from "../utils/api";
 import { toast, ToastContainer } from "react-toastify";
 import Navbar from "../components/Navbar";
 import "./Dashboard.css";
@@ -41,7 +41,7 @@ function Dashboard() {
 
           // Filter to show only MY exams
           const myExams = data.filter(
-            (e) => e.createdBy._id === user._id || e.createdBy === user._id
+            (e) => e.createdBy._id === user._id || e.createdBy === user._id,
           );
           setAdminExams(myExams);
         } catch (error) {
@@ -58,7 +58,6 @@ function Dashboard() {
 
     // ---  ALWAYS SYNC USER DATA FROM SERVER ---
     try {
-      
       // Fetch fresh user profile
       const { data: freshUser } = await api.get("/api/users/me");
 
@@ -72,7 +71,7 @@ function Dashboard() {
       if (!isVerified) {
         toast.warning(
           "🔒 Verification Required! Please verify your email to join exams.",
-          { autoClose: 2000 }
+          { autoClose: 2000 },
         );
         setTimeout(() => {
           navigate("/profile", { state: { activeTab: "contact" } });
@@ -224,7 +223,7 @@ function Dashboard() {
           </form>
         </div>
 
-        {/* Optional: Show Recent History Shortcut */}
+        {/*  Show Recent History Shortcut */}
         <div style={{ textAlign: "center", marginTop: "50px" }}>
           <p style={{ color: "#aaa" }}>Looking for past results?</p>
           <button
