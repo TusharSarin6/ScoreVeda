@@ -918,7 +918,7 @@ function Profile() {
               <>
                 <input
                   type="text"
-                  maxLength="4"
+                  maxLength="6"
                   placeholder="Enter OTP"
                   className="edit-input"
                   value={emailOtp}
@@ -1084,8 +1084,8 @@ function Profile() {
             <p>Enter the 6-digit code sent to your Email.</p>
             <input
               type="text"
-              maxLength="4"
-              placeholder="1234"
+              maxLength="6"
+              placeholder="123456"
               value={otpInput}
               onChange={(e) => setOtpInput(e.target.value)}
               className="otp-input"
@@ -1138,8 +1138,8 @@ function Profile() {
 
             <input
               type="text"
-              maxLength="4"
-              placeholder="Enter 4-digit OTP"
+              maxLength="6"
+              placeholder="Enter 6-digit OTP"
               className="edit-input"
               value={deleteOtp}
               onChange={(e) => setDeleteOtp(e.target.value)}

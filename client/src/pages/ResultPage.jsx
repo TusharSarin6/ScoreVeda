@@ -1,6 +1,6 @@
 import { useLocation, Link, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import api from "../utils/api"; 
+import api from "../utils/api";
 import Navbar from "../components/Navbar";
 import jsPDF from "jspdf";
 import { toast } from "react-toastify"; // Added for notifications
@@ -190,7 +190,7 @@ function ResultPage() {
       const format = isPng ? "PNG" : "JPEG";
       const cleanBase64 = logoPath.replace(
         /^data:image\/(png|jpeg|jpg);base64,/,
-        ""
+        "",
       );
       doc.addImage(cleanBase64, format, 405, 40, 130, 90);
     }
@@ -326,7 +326,7 @@ function ResultPage() {
       const stampBase64 = await loadImageAsBase64("/scoreveda-certified.png");
       const cleanStamp = stampBase64.replace(
         /^data:image\/(png|jpeg|jpg);base64,/,
-        ""
+        "",
       );
       // Corrected Position: X=120, Y=435, Size=120x120
       doc.addImage(cleanStamp, "PNG", 60, 460, 150, 100);
@@ -412,8 +412,8 @@ function ResultPage() {
             {isPending
               ? "Submission Successful!"
               : result.isPassed
-              ? "Congratulations!"
-              : "Better Luck Next Time"}
+                ? "Congratulations!"
+                : "Better Luck Next Time"}
           </h1>
           <p className="subtitle">
             {isPending
@@ -654,7 +654,7 @@ function ResultPage() {
         {/* --- GO TO PROFILE BUTTON (Bottom) --- */}
         <div style={{ marginTop: "20px", marginBottom: "40px" }}>
           <Link
-            to="/profile"
+            to="/profile" 
             className="home-btn"
             style={{
               padding: "15px 40px",

@@ -71,7 +71,7 @@ function Login() {
       const response = await api.post("/api/users/login", formData);
       if (response.data) {
         localStorage.setItem("user", JSON.stringify(response.data));
-        toast.success(`Welcome back, ${response.data.name}!`);
+        toast.success(`Welcome ${response.data.name}!`);
 
         const savedRedirect = sessionStorage.getItem("redirectAfterLogin");
         const destination = location.state?.from || "/";

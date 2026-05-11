@@ -50,6 +50,7 @@ function Navbar() {
 
   return (
     <nav className="navbar">
+      
       <div className="logo-container">
         {isTakingExam ? (
           <div style={{ cursor: "default" }}>
@@ -81,6 +82,7 @@ function Navbar() {
       )}
 
       <div className={`nav-menu ${isMobileMenuOpen ? "active" : ""}`}>
+        
         {/* About Us Link */}
         {!isTakingExam && (
           <Link to="/about" className="nav-link">
@@ -173,6 +175,7 @@ function Navbar() {
             >
               Logout
             </button>
+            
           </>
         ) : (
           <>
